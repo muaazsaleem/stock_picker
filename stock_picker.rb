@@ -2,28 +2,25 @@
 
 def stock_picker prices
 
+profit = 0
 buy_day = 0
-actual_sellday = 0
-actual_sum = 0
+sell_day = 0
 
-	prices.each.with_index do |buy_day_iterator, i|
+prices.each.with_index do |day ,i|
 
-		sell_day = 0
-		sum = 0
-		prices[(i+1)..-1].each.with_index do |val, j|
-			if sum < ( val - buy_day_iterator)
-				sell_day = j
-				sum = val - buy_day_iterator
-			end
-		end
+	
 
-		unless actual_sum > sum
+	prices[(i+1)..-1].each do | another_day |
+
+		if profit < (another_day - day)
+			profit = another_day - day
 			buy_day = i
-			actual_sellday = sell_day
-			actual_sum = prices[sell_day] - prices[i]
+			sell_day = prices.index(another_day)
 		end
 	end
-[buy_day,actual_sellday]
+	
+end
+[buy_day, sell_day]
 end
 
 p stock_picker([17,3,6,9,15,8,6,1,10])
